@@ -1,4 +1,5 @@
 {
     "logfile": "../log/info.log",
-    "outfile": "../work/result.csv"
+    "outfile": "../work/result.csv",
+    "monthly_node": "3550442051"
 }

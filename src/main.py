@@ -27,7 +27,7 @@ class Main:
                 min_price = now_price * 100
                 for i in range(1, 11):
                     self.logger.info(f"browse_node='3550442051',item_count=10, item_page={i}, min_price={min_price}")
-                    products = amazon_api.search_products(browse_node='3550442051',item_count=10, item_page=i, items_per_page=10, min_price=min_price, sort_by='Price:LowToHigh')
+                    products = amazon_api.search_products(browse_node=settings.monthly_node,item_count=10, item_page=i, items_per_page=10, min_price=min_price, sort_by='Price:LowToHigh')
                     if products is None:
                         break
                     for x in products:

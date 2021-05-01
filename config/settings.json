@@ -1,5 +1,8 @@
 {
     "logfile": "../log/info.log",
     "outfile": "../work/result.csv",
-    "monthly_node": "3550442051"
+    "monthly_node": "3550442051",
+    "author_black_list" :[
+        "与沢 翼"
+    ]
 }

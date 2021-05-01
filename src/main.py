@@ -4,6 +4,7 @@ __version__ = "0.1.0"
 import argparse
 import logzero
 import settings
+from amazon.paapi import AmazonAPI
 
 class Main:
     def __init__(self):
@@ -17,6 +18,9 @@ class Main:
 
     def main(self, args):
         self.logger.info(args)
+        amazon = AmazonAPI(settings.amazon_access_key, settings.amazon_secret_key, settings.amazon_assosiate_id, 'JP')
+        products = amazon.search_items(keywords='python')
+        print(products)
 
     def execute(self):
         return True

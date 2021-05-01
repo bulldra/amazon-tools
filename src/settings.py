@@ -11,3 +11,7 @@ def load_json_setting(path):
 
 settings_dict = load_json_setting('../config/settings.json')
 secrets_dict = load_json_setting('../config/secrets.json')
+
+amazon_access_key = secrets_dict['amazon_access_key']
+amazon_secret_key = secrets_dict['amazon_secret_key']
+amazon_assosiate_id = secrets_dict['amazon_assosiate_id']

@@ -18,12 +18,10 @@ class Main:
 
     def main(self, args):
         self.logger.info(args)
-        amazon = AmazonAPI(settings.amazon_access_key, settings.amazon_secret_key, settings.amazon_assosiate_id, 'JP')
-        products = amazon.search_items(keywords='python')
-        print(products)
-
-    def execute(self):
-        return True
+        amazon_api = AmazonAPI(settings.amazon_access_key, settings.amazon_secret_key, settings.amazon_assosiate_id, 'JP')
+        products = amazon_api.search_products(item_count=25, keywords='python')
+        for x in products:
+            print(f'{x.title}\t{x.url}')
 
 if(__name__ == '__main__'):
     parser = argparse.ArgumentParser()

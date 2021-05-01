@@ -1,8 +1,7 @@
-
-
 class ProductWrapper:
     def __init__(self, product):
         self.product = product
+        self.asin = product.asin
         self.title = product.title
         self.url = product.url
         self.price_value = product.prices.price.value
@@ -13,14 +12,13 @@ class ProductWrapper:
             self.author = product.info.contributors[0].name
 
     def __eq__(self, other):
-        return self.url == other.url
+        return self.asin == other.asin
 
     def __hash__(self):
-        return hash(self.url)
+        return hash(self.asin)
 
     def __lt__(self, other):
         return f'{self.author}:{self.title}' < f'{other.author}:{other.title}'
 
     def __gt__(self, other):
         return f'{self.author}:{self.title}' > f'{other.author}:{other.title}'
-

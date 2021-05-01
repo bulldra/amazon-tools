@@ -4,6 +4,7 @@ __version__ = "0.1.0"
 import argparse
 import logzero
 import settings
+import product_filter_rule
 from product_wrapper import ProductWrapper
 from amazon.paapi import AmazonAPI
 
@@ -35,6 +36,7 @@ class Main:
 
                     self.logger.info(f'response {len(products)} items')
                     for x in products:
+                        print(p.info.product_group)
                         p = ProductWrapper(x)
                         result.add(p)
                         now_price = p.price_value
@@ -42,7 +44,7 @@ class Main:
                     continue
                 break
 
-            for x in filter(lambda x : x.is_adult == False and x.author not in settings.author_black_list, sorted(result)):
+            for x in filter(lambda x : product_filter_rule.is_need(x, settings), sorted(result)):
                 out.write(f'"{x.author}","{x.title}","{x.price_display}","{x.url}"\n')
 
 if(__name__ == '__main__'):

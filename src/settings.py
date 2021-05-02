@@ -15,6 +15,7 @@ secrets_dict = load_json_setting('../config/secrets.json')
 outfile = settings_dict['outfile']
 monthly_node = settings_dict['monthly_node']
 author_black_list = settings_dict['author_black_list']
+genle_balck_list = settings_dict['genle_balck_list']
 
 amazon_access_key = secrets_dict['amazon_access_key']
 amazon_secret_key = secrets_dict['amazon_secret_key']

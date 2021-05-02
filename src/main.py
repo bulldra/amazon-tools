@@ -22,11 +22,11 @@ class Main:
         amazon_api = AmazonAPI(settings.amazon_access_key, settings.amazon_secret_key, settings.amazon_assosiate_id, 'JP')
         result = set()
         now_price = 1
-        for i in range(0, 3):
+        for i in range(0, 5):
             min_price = now_price * 100
-            for i in range(1, 11):
-                self.logger.info(f"request browse_node='{settings.monthly_node}', item_count=10, item_page={i}, min_price={min_price}, sort_by='Price:LowToHigh'")
-                products = amazon_api.search_products(browse_node=settings.monthly_node,item_count=10, item_page=i, items_per_page=10, min_price=min_price, sort_by='Price:LowToHigh')
+            for page in range(1, 11):
+                self.logger.info(f"request browse_node='{settings.monthly_node}', item_count=10, item_page={page}, min_price={min_price}, sort_by='Price:LowToHigh'")
+                products = amazon_api.search_products(browse_node=settings.monthly_node,item_count=10, item_page=page, items_per_page=10, min_price=min_price, sort_by='Price:LowToHigh')
                 if products is None:
                     self.logger.info(f'response {products}')
                     break

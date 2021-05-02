@@ -19,6 +19,7 @@ class Main:
 
     def main(self, args):
         self.logger.info(args)
+        node = args.arg1
         amazon_api = AmazonAPI(settings.amazon_access_key, settings.amazon_secret_key, settings.amazon_assosiate_id, 'JP')
         result = set()
         now_price = 100
@@ -26,7 +27,7 @@ class Main:
             min_price = now_price * 100
             for page in range(1, 11):
                 products = amazon_api.search_products(
-                    browse_node=settings.gw_2021_node,
+                    browse_node=node,
                     item_page=page,
                     min_price=min_price,
                     sort_by='Price:LowToHigh'
@@ -59,5 +60,6 @@ class Main:
 if(__name__ == '__main__'):
     parser = argparse.ArgumentParser()
     parser.add_argument("--version", action="version", version="%(prog)s (version {version})".format(version=__version__))
+    parser.add_argument("arg1", help='Amazon Node')
     args = parser.parse_args()
     Main().main(args)

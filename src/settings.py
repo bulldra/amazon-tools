@@ -14,7 +14,6 @@ secrets_dict = load_json_setting('../config/secrets.json')
 
 outfile = settings_dict['outfile']
 monthly_node = settings_dict['monthly_node']
-gw_2021_node = settings_dict['gw_2021_node']
 
 author_black_list = settings_dict['author_black_list']
 genle_black_list = settings_dict['genle_black_list']

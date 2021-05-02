@@ -4,7 +4,6 @@ __version__ = "0.1.0"
 import argparse
 import logzero
 import settings
-import product_filter_rule
 from product_wrapper import ProductWrapper
 from amazon.paapi import AmazonAPI
 
@@ -42,8 +41,15 @@ class Main:
 
         with open(settings.outfile, 'w', encoding='utf-8') as out:
             out.write('author,title,price,url\n')
-            for x in filter(lambda x : product_filter_rule.is_need(x, settings), sorted(result)):
+            for x in filter(lambda x : self.is_need(x), sorted(result)):
                 out.write(f'"{x.author}","{x.title}","{x.price_display}","{x.url}"\n')
+
+    def is_need(self, product):
+        flag = len(set(product.genles) & set(settings.genle_balck_list)) == 0 \
+            and len(set(product.authors) & set(settings.author_black_list)) == 0
+        if flag == False:
+            self.logger.info(f'結果除外 {product.title}')
+        return flag
 
 if(__name__ == '__main__'):
     parser = argparse.ArgumentParser()

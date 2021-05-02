@@ -22,8 +22,11 @@ class Main:
         node = args.arg1
         amazon_api = AmazonAPI(settings.amazon_access_key, settings.amazon_secret_key, settings.amazon_assosiate_id, 'JP')
         result = set()
-        now_price = 100
+        now_price = settings.min_price
+        min_price = 0
         for i in range(0, 10):
+            if min_price == now_price * 100:
+                now_price += 1
             min_price = now_price * 100
             for page in range(1, 11):
                 products = amazon_api.search_products(

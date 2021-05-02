@@ -18,6 +18,7 @@ monthly_node = settings_dict['monthly_node']
 author_black_list = settings_dict['author_black_list']
 genle_black_list = settings_dict['genle_black_list']
 title_black_list = settings_dict['title_black_list']
+min_price = settings_dict['min_price']
 
 amazon_access_key = secrets_dict['amazon_access_key']
 amazon_secret_key = secrets_dict['amazon_secret_key']

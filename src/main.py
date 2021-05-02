@@ -33,15 +33,15 @@ class Main:
                     break
                 self.logger.info(f'response {len(products)} items')
                 for x in products:
-                    result.add(ProductWrapper(x))
-                    now_price = x.prices.price.value
+                    p = ProductWrapper(x)
+                    result.add(p)
+                    now_price = p.price_value
             else:
                 continue
             break
 
         with open(settings.outfile, 'w', encoding='utf-8') as out:
             out.write('author,title,price,url\n')
-
             for x in filter(lambda x : product_filter_rule.is_need(x, settings), sorted(result)):
                 out.write(f'"{x.author}","{x.title}","{x.price_display}","{x.url}"\n')
 

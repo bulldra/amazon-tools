@@ -11,7 +11,6 @@ class ProductWrapper:
         self.author = self.authors[0]
         self.genles = self._genles()
 
-
     def _authors(self):
         authors = list()
         if self.raw.info.contributors is not None and len(self.raw.info.contributors) > 0:

@@ -14,10 +14,12 @@ secrets_dict = load_json_setting('../config/secrets.json')
 
 outfile = settings_dict['outfile']
 monthly_node = settings_dict['monthly_node']
+gw_2021_node = settings_dict['gw_2021_node']
+
 author_black_list = settings_dict['author_black_list']
-genle_balck_list = settings_dict['genle_balck_list']
+genle_black_list = settings_dict['genle_black_list']
+title_black_list = settings_dict['title_black_list']
 
 amazon_access_key = secrets_dict['amazon_access_key']
 amazon_secret_key = secrets_dict['amazon_secret_key']
 amazon_assosiate_id = secrets_dict['amazon_assosiate_id']
-

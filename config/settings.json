@@ -2,15 +2,19 @@
     "logfile": "../log/info.log",
     "outfile": "../work/result.csv",
     "monthly_node": "3550442051",
+    "gw_2021_node": "10294027051",
     "author_black_list" :[
         "与沢 翼",
         "百田尚樹",
         "本田 健",
         "猫組長"
     ],
-    "genle_balck_list" : [
+    "genle_black_list" : [
         "写真集",
         "宗教"
+    ],
+    "title_black_list" :[
+        "分冊版",
+        "連載版"
     ]
-
 }

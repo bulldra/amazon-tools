@@ -21,12 +21,16 @@ class Main:
         self.logger.info(args)
         amazon_api = AmazonAPI(settings.amazon_access_key, settings.amazon_secret_key, settings.amazon_assosiate_id, 'JP')
         result = set()
-        now_price = 1
-        for i in range(0, 5):
+        now_price = 100
+        for i in range(0, 10):
             min_price = now_price * 100
             for page in range(1, 11):
-                self.logger.info(f"request browse_node='{settings.monthly_node}', item_count=10, item_page={page}, min_price={min_price}, sort_by='Price:LowToHigh'")
-                products = amazon_api.search_products(browse_node=settings.monthly_node,item_count=10, item_page=page, items_per_page=10, min_price=min_price, sort_by='Price:LowToHigh')
+                products = amazon_api.search_products(
+                    browse_node=settings.gw_2021_node,
+                    item_page=page,
+                    min_price=min_price,
+                    sort_by='Price:LowToHigh'
+                )
                 if products is None:
                     self.logger.info(f'response {products}')
                     break
@@ -40,13 +44,14 @@ class Main:
             break
 
         with open(settings.outfile, 'w', encoding='utf-8') as out:
-            out.write('author,title,price,url\n')
+            out.write('author,title,price,url,genles\n')
             for x in filter(lambda x : self.is_need(x), sorted(result)):
-                out.write(f'"{x.author}","{x.title}","{x.price_display}","{x.url}"\n')
+                out.write(f'"{x.author}","{x.title}","{x.price_display}","{x.url}","{x.genles}"\n')
 
     def is_need(self, product):
-        flag = len(set(product.genles) & set(settings.genle_balck_list)) == 0 \
-            and len(set(product.authors) & set(settings.author_black_list)) == 0
+        flag = len(set(product.genles) & set(settings.genle_black_list)) == 0 \
+            and len(set(product.authors) & set(settings.author_black_list)) == 0 \
+            and len([x for x in settings.title_black_list if x in product.title]) == 0
         if flag == False:
             self.logger.info(f'結果除外 {product.title}')
         return flag

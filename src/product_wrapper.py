@@ -1,5 +1,16 @@
+import settings
+import logzero
+
 class ProductWrapper:
     def __init__(self, product):
+        logzero.logfile(
+            settings.settings_dict['logfile'],
+            loglevel=20,
+            maxBytes=1e6,
+            backupCount=3
+        )
+        self.logger = logzero.logger
+
         self.raw = product
         self.asin = product.asin
         self.title = product.title
@@ -32,6 +43,20 @@ class ProductWrapper:
             return genles
         else:
             return self._genles_node(genles, node.ancestor)
+
+    def predict_filtered(self):
+        cause_dict = {}
+        cause_dict['genle'] = len(set(self.genles) & set(settings.genle_black_list)) * 0.2
+        cause_dict['author'] = len(set(self.authors) & set(settings.author_black_list)) * 0.1
+        cause_dict['title'] = len([x for x in settings.title_black_list if x in self.title]) * 0.1
+        cause_dict['having'] = len(set([self.asin]) & set(settings.amazon_list)) * 1
+
+        socore = min(sum(cause_dict.values()), 1.0)
+        if  socore >= 0.2:
+            self.logger.info(f'filterd by {cause_dict} {self.asin} {self.author} {self.title}')
+            return True
+        else:
+            return False
 
     def __eq__(self, other):
         return self.asin == other.asin

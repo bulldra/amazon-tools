@@ -61,9 +61,9 @@ class Main:
         return product_set
 
     def filter_product_set(self, product_set):
-        return set([x for x in filter(lambda x : self.is_need(x), product_set)])
+        return set([x for x in filter(lambda x : self.predict_filtered(x) == False, product_set)])
 
-    def is_need(self, product):
+    def predict_filtered(self, product):
         cause = None
         if len(set(product.genles) & set(settings.genle_black_list)) > 0:
             cause = 'genle'
@@ -76,9 +76,9 @@ class Main:
 
         if cause is not None:
             self.logger.info(f'filterd by {cause} {product.asin} {product.author} {product.title}')
-            return False
-        else:
             return True
+        else:
+            return False
 
     def out_product_set(self, product_set, outfile):
         with open(outfile, 'w', encoding='utf-8') as out:

@@ -64,7 +64,7 @@ class Main:
         with open(outfile, 'w', encoding='utf-8') as out:
             out.write('author,title,price,url,genles\n')
             for x in sorted(product_set):
-                out.write(f'"{x.author}","{x.title}","{x.price_display}","{x.url}","{x.genles}"\n')
+                out.write(f'"{x.author}","{x.series_title}","{x.price_display}","{x.url}","{x.genles}"\n')
 
 if(__name__ == '__main__'):
     parser = argparse.ArgumentParser()

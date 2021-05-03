@@ -1,8 +1,8 @@
 {
     "logfile": "../log/info.log",
     "outfile": "../work/result.csv",
-    "amazon_lib": "../config/kindle_lib.txt",
-    "max_item_num": 10000,
+    "amazon_lib": "../work/kindle_lib.txt",
+    "max_item_num": 1000,
     "min_price": 100,
     "author_black_list" :[
         "与沢 翼",

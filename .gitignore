@@ -2,5 +2,6 @@
 .vscode
 __pycache__
 config/secrets.json
+config/kindle_lib.txt
 work/
 log/

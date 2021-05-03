@@ -9,11 +9,20 @@ def load_json_setting(path):
     with open(path, 'r') as conf:
         return json.load(conf)
 
+def load_text_list(path):
+    result = []
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
+    with open(path, 'r') as conf:
+        for line in conf.read().splitlines():
+            result.append(line)
+    return result
+
 settings_dict = load_json_setting('../config/settings.json')
 secrets_dict = load_json_setting('../config/secrets.json')
+amazon_list = load_text_list(settings_dict['amazon_lib'])
 
 outfile = settings_dict['outfile']
-monthly_node = settings_dict['monthly_node']
+max_item_num = settings_dict['max_item_num']
 
 author_black_list = settings_dict['author_black_list']
 genle_black_list = settings_dict['genle_black_list']

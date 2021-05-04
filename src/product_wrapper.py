@@ -1,6 +1,6 @@
 import settings
 import logzero
-import book_util
+import kindle_util
 
 class ProductWrapper:
     def __init__(self, product):
@@ -14,7 +14,7 @@ class ProductWrapper:
         self.product = product
         self.asin = product.asin
         self.title = product.title
-        self.series_title = book_util.tlanslate_series_title(product.title)
+        self.series_title = kindle_util.tlanslate_series_title(product.title)
         self.url = product.url
         self.price_value = product.prices.price.value
         self.price_display = product.prices.price.display

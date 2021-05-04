@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 __version__ = "0.1.0"
 
-import book_util
+import kindle_util
 
 def test_sereis_title():
     answer =[
@@ -32,4 +32,4 @@ def test_sereis_title():
     ]
 
     for a in answer:
-        assert book_util.tlanslate_series_title(a[0]) == a[1]
+        assert kindle_util.tlanslate_series_title(a[0]) == a[1]

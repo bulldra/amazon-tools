@@ -4,7 +4,7 @@ __version__ = "0.1.0"
 import kindle_util
 
 def test_sereis_title():
-    answer =[
+    except_list =[
         ['(～ら一攫千金!～ 1 (B\'s-LOG COMICS)','(～ら一攫千金!～(B\'s-LOG COMICS)'],
         ['0能者ミナト＜2＞', '0能者ミナト'],
         ['100億円稼ぐ人の思考法(あさ出版電子書籍)','100億円稼ぐ人の思考法(あさ出版電子書籍)'],
@@ -31,5 +31,5 @@ def test_sereis_title():
         ['ＰＬＵＳ１　Ｌｉｖｉｎｇ　Ｎｏ．８３','ＰＬＵＳ１　Ｌｉｖｉｎｇ'],
     ]
 
-    for a in answer:
+    for a in except_list:
         assert kindle_util.tlanslate_series_title(a[0]) == a[1]

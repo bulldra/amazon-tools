@@ -31,9 +31,11 @@ def test_sereis_title():
         ['ＰＬＵＳ１　Ｌｉｖｉｎｇ　Ｎｏ．８３','ＰＬＵＳ１　Ｌｉｖｉｎｇ'],
         ['狼と香辛料XIII　Side Colors III (電撃文庫)','狼と香辛料Side Colors(電撃文庫)'],
         ['方法2 (中経出版)','方法(中経出版)'],
-        ['100円のコーラを1000円で売る方法 (中経出版)','100円のコーラを1000円で売る方法 (中経出版)'],
-        ['10年戦えるデータ分析入門 (Informatics ＆IDEA)','10年戦えるデータ分析入門 (Informatics ＆IDEA)'],
-        ['3月のライオン 1 (ジェッツコミックス)','3月のライオン(ジェッツコミックス)']
+        ['100円のコーラを1000円で売る方法 (中経出版)','100円のコーラを1000円で売る方法(中経出版)'],
+        ['10年戦えるデータ分析入門 (Informatics ＆IDEA)','10年戦えるデータ分析入門(Informatics ＆IDEA)'],
+        ['3月のライオン 1 (ジェッツコミックス)','3月のライオン(ジェッツコミックス)'],
+        ['HUNTER×HUNTER モノクロ版 4 (ジャンプコミックスDIGITAL)','HUNTER×HUNTER(ジャンプコミックスDIGITAL)'],
+        ['【合本版】オイレンシュピーゲル　全４巻 (角川スニーカー文庫)','オイレンシュピーゲル(角川スニーカー文庫)']
     ]
 
     for a in except_list:
@@ -46,7 +48,7 @@ def test_ser():
             titles.append(line)
 
     with open('../work/kindle_lib_title_a.txt', 'w') as out:
+        out.write('title,result,is_match\n')
         for x in titles:
             a = kindle_util.tlanslate_series_title(x)
-            if x != a:
-                out.write(f'{x},{a}\n')
+            out.write(f'{x},{a},{x==a}\n')

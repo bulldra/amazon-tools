@@ -5,7 +5,7 @@ import kindle_util
 
 def test_sereis_title():
     except_list =[
-        ['(～ら一攫千金!～ 1 (B\'s-LOG COMICS)','(～ら一攫千金!～(B\'s-LOG COMICS)'],
+        ['(～一攫千金!～ 1 (B\'s-LOG COMICS)','(～一攫千金!～(B\'s-LOG COMICS)'],
         ['0能者ミナト＜2＞', '0能者ミナト'],
         ['100億円稼ぐ人の思考法(あさ出版電子書籍)','100億円稼ぐ人の思考法(あさ出版電子書籍)'],
         ['ANGELIC LAYER(1) (角川コミックス・エース)','ANGELIC LAYER(角川コミックス・エース)'],

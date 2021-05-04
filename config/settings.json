@@ -2,8 +2,8 @@
     "logfile": "../log/info.log",
     "outfile": "../work/result.csv",
     "amazon_lib": "../work/kindle_lib.txt",
-    "max_item_num": 1000,
-    "min_price": 300,
+    "max_item_num": 10000,
+    "min_price": 1000,
     "author_black_list" :[
         "与沢 翼",
         "百田尚樹",

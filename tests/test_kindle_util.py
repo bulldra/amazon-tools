@@ -5,7 +5,7 @@ import kindle_util
 
 def test_sereis_title():
     except_list =[
-        ['(～一攫千金!～ 1 (B\'s-LOG COMICS)','(～一攫千金!～(B\'s-LOG COMICS)'],
+        ['～一攫千金!～ 1 (B\'s-LOG COMICS)','～一攫千金!～(B\'s-LOG COMICS)'],
         ['0能者ミナト＜2＞', '0能者ミナト'],
         ['100億円稼ぐ人の思考法(あさ出版電子書籍)','100億円稼ぐ人の思考法(あさ出版電子書籍)'],
         ['ANGELIC LAYER(1) (角川コミックス・エース)','ANGELIC LAYER(角川コミックス・エース)'],
@@ -29,8 +29,24 @@ def test_sereis_title():
         ['最新ゲーム攻略ガイド VOL.6 2021 ～ネ','最新ゲーム攻略ガイド2021 ～ネ'],
         ['ＤｅＬｉ　ｍａｇａｚｉｎｅ　ｖｏｌ．０１ 主婦の友生活シリーズ','ＤｅＬｉ　ｍａｇａｚｉｎｅ主婦の友生活シリーズ'],
         ['ＰＬＵＳ１　Ｌｉｖｉｎｇ　Ｎｏ．８３','ＰＬＵＳ１　Ｌｉｖｉｎｇ'],
-        ['狼と香辛料XIII　Side Colors III (電撃文庫)','狼と香辛料XIII　Side Colors(電撃文庫)']
+        ['狼と香辛料XIII　Side Colors III (電撃文庫)','狼と香辛料Side Colors(電撃文庫)'],
+        ['方法2 (中経出版)','方法(中経出版)'],
+        ['100円のコーラを1000円で売る方法 (中経出版)','100円のコーラを1000円で売る方法 (中経出版)'],
+        ['10年戦えるデータ分析入門 (Informatics ＆IDEA)','10年戦えるデータ分析入門 (Informatics ＆IDEA)'],
+        ['3月のライオン 1 (ジェッツコミックス)','3月のライオン(ジェッツコミックス)']
     ]
 
     for a in except_list:
         assert kindle_util.tlanslate_series_title(a[0]) == a[1]
+
+def test_ser():
+    titles =[]
+    with open('../work/kindle_lib_title.txt', 'r') as conf:
+        for line in conf.read().splitlines():
+            titles.append(line)
+
+    with open('../work/kindle_lib_title_a.txt', 'w') as out:
+        for x in titles:
+            a = kindle_util.tlanslate_series_title(x)
+            if x != a:
+                out.write(f'{x},{a}\n')

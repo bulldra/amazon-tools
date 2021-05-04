@@ -52,8 +52,7 @@ class Main:
                 self.logger.info(f'response products={len(products)}')
                 for p in products:
                     pp = ProductWrapper(p)
-                    if pp.predict_filtered() == False:
-                        product_set.add(pp)
+                    product_set.add(pp)
                     now_price = pp.price_value
             else:
                 continue

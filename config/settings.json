@@ -2,8 +2,8 @@
     "logfile": "../log/info.log",
     "outfile": "../work/result.csv",
     "amazon_lib": "../work/kindle_lib.txt",
-    "max_item_num": 10000,
-    "min_price": 100,
+    "max_item_num": 1000,
+    "min_price": 300,
     "author_black_list" :[
         "与沢 翼",
         "百田尚樹",
@@ -19,7 +19,8 @@
         "占い",
         "マンガ雑誌",
         "ボーイズラブ",
-        "ティーンズラブ"
+        "ティーンズラブ",
+        "クルマ・バイク・乗り物"
     ],
     "title_black_list" :[
         "分冊版",
@@ -27,6 +28,8 @@
         "プチデザ",
         "【短編】",
         "【合本版】",
-        "セックス"
+        "セックス",
+        "きのうのＨ",
+        "SEX"
     ]
 }

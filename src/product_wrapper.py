@@ -1,6 +1,6 @@
 import settings
 import logzero
-import re
+import book_util
 
 class ProductWrapper:
     def __init__(self, product):
@@ -14,7 +14,7 @@ class ProductWrapper:
         self.product = product
         self.asin = product.asin
         self.title = product.title
-        self.series_title = self._series_title()
+        self.series_title = book_util.tlanslate_series_title(product.title)
         self.url = product.url
         self.price_value = product.prices.price.value
         self.price_display = product.prices.price.display
@@ -22,21 +22,6 @@ class ProductWrapper:
         self.author = self.authors[0]
         self.genles = self._genles()
         self.is_adult = product.info.is_adult
-
-
-    def _series_title(self):
-        title = self.title
-        title = re.sub('(.+)\s*[<（(]*第?[0-9０-９一二三四五六七八九IⅤＩX]+巻?[）)>]*.*', '\1', title)
-        title = re.sub('\s*[（\[]*[上中下]）[\]]*\s*', '', title)
-        title = re.sub('\s+[上中下]\s*', '', title)
-        title = re.sub('【電子完全版】','',title)
-        title = re.sub('【電子版】','',title)
-        title = re.sub('【電子特別版】','',title)
-        title = re.sub('【電子特典付き】','',title)
-        title = re.sub('【新装版】','',title)
-        title = re.sub('【部分販売】','',title)
-
-        return title
 
     def _authors(self):
         authors = list()
@@ -67,7 +52,6 @@ class ProductWrapper:
         cause_dict['author'] = len(set(self.authors) & set(settings.author_black_list)) * 0.2
         cause_dict['title'] = len([x for x in settings.title_black_list if x in self.title]) * 0.2
         cause_dict['having'] = len(set([self.asin]) & set(settings.amazon_list)) * 1
-
         socore = min(sum(cause_dict.values()), 1.0)
         if  socore >= 0.2:
             self.logger.info(f'filterd by {cause_dict} {self.asin} {self.author} {self.title}')
@@ -76,13 +60,10 @@ class ProductWrapper:
             return False
 
     def __eq__(self, other):
-        return self.series_title == other.series_title
-
+        return self.asin == other.asin
     def __hash__(self):
-        return hash(self.series_title)
-
+        return hash(self.asin)
     def __lt__(self, other):
-        return f'{self.title}' < f'{other.title}'
-
+        return self.title < other.title
     def __gt__(self, other):
-        return f'{self.title}' > f'{other.title}'
+        return self.title > other.title

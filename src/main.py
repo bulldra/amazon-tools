@@ -21,7 +21,8 @@ class Main:
     def main(self, args):
         self.logger.info(args)
         node = args.arg1
-        product_set = self.crawl_product_set(node, settings.max_item_num, settings.min_price)
+        min_price = int(args.min_price) if args.min_price is not None else settings.max_item_num
+        product_set = self.crawl_product_set(node, settings.max_item_num, min_price)
         self.out_product_set(product_set, settings.outfile)
 
     def crawl_product_set(self, node, max_item_num, min_price):
@@ -34,10 +35,18 @@ class Main:
         product_set = set()
         now_price = min_price
         request_min_price = 0
+
+        # PAAPIv5は10アイテムを最大10回リクエスト
+        # 必要なアイテム数 / (10 * 10) 回以上のリクエストセットが必要
         for i in range(0, math.ceil(max_item_num / 100)):
+
+            # 100アイテム取得して価格が変わらない場合にはループを防ぐため+1円する
             if request_min_price == now_price * 100:
                 now_price += 1
+            # PAAPIv5の仕様で日本円のリクエストは100倍する必要がある
             request_min_price = math.floor(now_price * 100)
+
+            ## 10回リクエスト
             for page in range(1, 11):
                 self.logger.info(f'request count={i * 10 + page}, min_price={request_min_price}, item_page={page}')
                 products = amazon_api.search_products(
@@ -46,14 +55,19 @@ class Main:
                     min_price=request_min_price,
                     sort_by='Price:LowToHigh'
                 )
+                ## 次のアイテムが取得できないなら終了
                 if products is None:
                     self.logger.info(f'response products={products}')
                     break
+
                 self.logger.info(f'response products={len(products)}')
                 for p in products:
                     pp = ProductWrapper(p)
                     product_set.add(pp)
                     now_price = pp.price_value
+                ## 次のアイテムが取得できない見込みなら終了
+                if len(products) < 10:
+                    break
             else:
                 continue
             break
@@ -67,7 +81,8 @@ class Main:
 
 if(__name__ == '__main__'):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--version", action="version", version="%(prog)s (version {version})".format(version=__version__))
-    parser.add_argument("arg1", help='Amazon Node')
+    parser.add_argument('--version', action='version', version=f'{__version__}')
+    parser.add_argument('arg1', help='Amazon Node')
+    parser.add_argument('--min_price', help='Min Price')
     args = parser.parse_args()
     Main().main(args)

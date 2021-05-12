@@ -2,10 +2,13 @@
 __version__ = "0.1.0"
 
 import settings
+import pandas
+
+lib = pandas.read_csv(settings.kindle_lib, sep='\t')
 
 def scoring(kindle):
     cause_dict = {}
-    cause_dict['having'] = 1 if kindle.asin in settings.kindle_lib_list else 0
+    cause_dict['having'] = 1 if kindle.asin in lib.ASIN else 0
     cause_dict['adult'] = 0.2 if kindle.is_adult else 0
     cause_dict['genle'] = _scoring_element_match(settings.genle_black_list, kindle.genles)
     cause_dict['author'] = _scoring_element_match(settings.author_black_list, kindle.authors)

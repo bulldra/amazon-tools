@@ -2,6 +2,7 @@ import simhash
 import logzero
 import settings
 import kindle_util
+import pandas
 
 class a:
     def __init__(self, a, b, c):
@@ -27,14 +28,15 @@ def test_simset():
     )
     log = logzero.logger
 
-    value = settings.load_text_list('../work/kindle_lib_title.txt')[0:100]
+    lib = pandas.read_csv(settings.kindle_lib, sep='\t')
+    value = lib['title']
 
-    result = set()
-    for v1 in value:
-        for v2 in value:
-            x = simhash.Simhash(kindle_util.tlanslate_series_title(v1))
-            y = simhash.Simhash(kindle_util.tlanslate_series_title(v2))
-            result.add(a(v1, v2, x.distance(y)))
+#    result = set()
+#    for v1 in value:
+#        for v2 in value:
+#            x = simhash.Simhash(kindle_util.tlanslate_series_title(v1))
+#            y = simhash.Simhash(kindle_util.tlanslate_series_title(v2))
+#           result.add(a(v1, v2, x.distance(y)))
 
 #    for x in sorted(result):
 #        log.info(f'{x.a} {x.b} {x.c}')

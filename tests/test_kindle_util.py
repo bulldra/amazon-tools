@@ -2,6 +2,8 @@
 __version__ = "0.1.0"
 
 import kindle_util
+import pandas
+import settings
 
 def test_sereis_title():
     except_list =(
@@ -52,13 +54,11 @@ def test_sereis_title():
         assert kindle_util.tlanslate_series_title(a[0]) == a[1]
 
 def test_ser():
-    titles =[]
-    with open('../work/kindle_lib_title.txt', 'r') as conf:
-        for line in conf.read().splitlines():
-            titles.append(line)
+    lib = pandas.read_csv(settings.kindle_lib, sep='\t')
+    titles = lib['title']
 
-    with open('../work/kindle_lib_title_a.txt', 'w') as out:
+    with open('../work/kindle_lib_title.txt', 'w') as out:
         out.write('title,result,is_match\n')
         for x in titles:
             a = kindle_util.tlanslate_series_title(x)
-            out.write(f'{a},{x}\n')
+            out.write(f'{x}\t{a}\n')

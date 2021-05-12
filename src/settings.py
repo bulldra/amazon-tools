@@ -27,7 +27,6 @@ settings_dict = load_json_setting('../config/settings.json')
 secrets_dict = load_json_setting('../config/secrets.json')
 
 kindle_lib = settings_dict['kindle_lib']
-kindle_lib_list = load_text_list(kindle_lib)
 kindle_xml = settings_dict['kindle_xml']
 
 outfile = settings_dict['outfile']

@@ -2,7 +2,7 @@
     "logfile": "../log/info.log",
     "outfile": "../work/result.csv",
     "amazon_lib": "../work/kindle_lib.txt",
-    "max_item_num": 10000,
+    "max_item_num": 200,
     "min_price": 100,
     "author_black_list" :[
         "与沢 翼",
@@ -13,15 +13,16 @@
         "浜 矩子",
         "竹中 平蔵"
     ],
-    "genle_black_list" :[
-        "写真",
-        "タレント写真集",
-        "占い",
-        "マンガ雑誌",
-        "ボーイズラブ",
-        "ティーンズラブ",
-        "クルマ・バイク・乗り物"
-    ],
+    "genle_black_list" : {
+        "写真": 0.1,
+        "タレント写真集": 0.3,
+        "占い": 0.3,
+        "マンガ雑誌": 0.3,
+        "ボーイズラブ": 0.3,
+        "ティーンズラブ": 0.1,
+        "ライトノベル":0.2,
+        "クルマ・バイク・乗り物":0.3
+    },
     "title_black_list" :[
         "分冊版",
         "連載版",

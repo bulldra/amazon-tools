@@ -5,7 +5,7 @@ import argparse
 import logzero
 import settings
 import math
-from product_wrapper import ProductWrapper
+from kindle_product import KindleProduct
 from amazon.paapi import AmazonAPI
 
 class Main:
@@ -38,8 +38,9 @@ class Main:
 
         # PAAPIv5は10アイテムを最大10回リクエスト
         # 必要なアイテム数 / (10 * 10) 回以上のリクエストセットが必要
-        for i in range(0, math.ceil(max_item_num / 100)):
-
+        request_set_num = math.ceil(max_item_num / (10 * 10))
+        self.logger.info(f'response products={request_set_num}')
+        for i in range(request_set_num):
             # 100アイテム取得して価格が変わらない場合にはループを防ぐため+1円する
             if request_min_price == now_price * 100:
                 now_price += 1
@@ -62,7 +63,8 @@ class Main:
 
                 self.logger.info(f'response products={len(products)}')
                 for p in products:
-                    pp = ProductWrapper(p)
+                    pp = KindleProduct()
+                    pp.from_amazon_product(p)
                     product_set.add(pp)
                     now_price = pp.price_value
                 ## 次のアイテムが取得できない見込みなら終了
@@ -77,7 +79,7 @@ class Main:
         with open(outfile, 'w', encoding='utf-8') as out:
             out.write('author,series_title,title,price,url,genles\n')
             for x in sorted(product_set):
-                out.write(f'"{x.author}","{x.series_title}","{x.title}","{x.price_display}","{x.url}","{x.genles}"\n')
+                out.write(f'"{x.author}","{x.series_title}","{x.title}","{x.price_display}","{x.url}","{x.genles}","{x.simhash().value}"\n')
 
 if(__name__ == '__main__'):
     parser = argparse.ArgumentParser()

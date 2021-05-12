@@ -1,16 +1,24 @@
-import settings
-import logzero
-import kindle_util
+#!/usr/bin/env python3
+__version__ = "0.1.0"
 
-class ProductWrapper:
-    def __init__(self, product):
-        logzero.logfile(
-            settings.settings_dict['logfile'],
-            loglevel=20,
-            maxBytes=1e6,
-            backupCount=3
-        )
-        self.logger = logzero.logger
+import kindle_util
+import simhash
+
+class KindleProduct:
+    def __init__(self):
+        self.product = None
+        self.asin = None
+        self.title = None
+        self.series_title = None
+        self.url = None
+        self.price_value = 0.0
+        self.price_display = 0.0
+        self.authors = None
+        self.author = None
+        self.genles = None
+        self.is_adult = None
+
+    def from_amazon_product(self, product):
         self.product = product
         self.asin = product.asin
         self.title = product.title
@@ -45,20 +53,8 @@ class ProductWrapper:
         else:
             return self._genles_node(genles, node.ancestor)
 
-    def predict_filtered(self):
-        cause_dict = {}
-        cause_dict['adult'] = 0.2 if self.is_adult else 0.0
-        cause_dict['genle'] = len(set(self.genles) & set(settings.genle_black_list)) * 0.2
-        cause_dict['author'] = len(set(self.authors) & set(settings.author_black_list)) * 0.2
-        cause_dict['title'] = len([x for x in settings.title_black_list if x in self.title]) * 0.2
-        cause_dict['having'] = len(set([self.asin]) & set(settings.amazon_list)) * 1
-        socore = min(sum(cause_dict.values()), 1.0)
-        if  socore >= 0.2:
-            self.logger.info(f'filterd by {cause_dict} {self.asin} {self.author} {self.title}')
-            return True
-        else:
-            return False
-
+    def simhash(self):
+        return simhash.Simhash(self.title)
     def __eq__(self, other):
         return self.asin == other.asin
     def __hash__(self):

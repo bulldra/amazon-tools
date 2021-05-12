@@ -37,6 +37,7 @@ def all_remove(title):
         r'前編',
         r'後編',
         r'分割版',
+        r'新訳版',
     ]
     space_word_list = [
         r'通常版',

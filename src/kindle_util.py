@@ -38,6 +38,7 @@ def all_remove(title):
         r'後編',
         r'分割版',
         r'新訳版',
+        r'ワイド版',
     ]
     space_word_list = [
         r'通常版',
@@ -50,14 +51,14 @@ def all_remove(title):
     regex_list += [r'\s*' + x + r'\s*' for x in space_word_list]
 
     for r in regex_list:
-        title = re.sub(r,'',title)
+        title = re.sub(r,'',title, flags=re.IGNORECASE)
     return title
 
 def choice_remove(title):
     regex_list =[
         r'([\s\d]+年)*\s*[\d]+月号\s*',
-        r'\s*[VvＶｖ][OoＯｏ][LlＬｌ．][\.．]\s*[\d]+\s*',
-        r'\s*[ＮNｎn][OoＯｏ][\.．]\s*[\d]+\s*',
+        r'\s*[VＶ][OＯ][LＬ．][\.．]\s*[\d]+\s*',
+        r'\s*[ＮN][OＯ][\.．]\s*[\d]+\s*',
         r'[：\s]*[\d一二三四五六七八九十IⅤＩX上中下]+\s+',
         r'\s*\([上中下全\d一二三四五六七八九十IⅤＩX]+\)\s*',
         r'\s*（[上中下\d一二三四五六七八九十IⅤＩX]+）\s*',
@@ -67,7 +68,7 @@ def choice_remove(title):
     ]
 
     for r in regex_list:
-        result = re.sub(r, '', title)
+        result = re.sub(r, '', title, flags=re.IGNORECASE)
         if title != result:
             return result
 

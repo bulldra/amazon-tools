@@ -24,3 +24,9 @@ def test_a():
     s = kindle_predictor.agg_score(cause_dict)
     log.info(s)
 
+def test_b():
+    kindle= kindle_product.KindleProduct()
+    kindle.title = '100円のコーラを1000円で売る方法3'
+    kindle.asin = 'B009GXMCIUX'
+
+    log.info(kindle_predictor.is_one_in_series(kindle))

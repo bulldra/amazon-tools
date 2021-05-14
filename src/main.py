@@ -5,6 +5,7 @@ import argparse
 import logzero
 import settings
 import math
+import kindle_predictor
 from kindle_product import KindleProduct
 from amazon.paapi import AmazonAPI
 
@@ -65,7 +66,9 @@ class Main:
                 for p in products:
                     pp = KindleProduct()
                     pp.from_amazon_product(p)
-                    product_set.add(pp)
+
+                    if kindle_predictor.scoring_value(pp) < 0.2:
+                        product_set.add(pp)
                     now_price = pp.price_value
                 ## 次のアイテムが取得できない見込みなら終了
                 if len(products) < 10:

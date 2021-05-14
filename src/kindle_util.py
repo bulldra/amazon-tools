@@ -55,22 +55,25 @@ def all_remove(title):
     return title
 
 def choice_remove(title):
+    keyword = r'\d一二三四五六七八九十IⅤＩXⅠⅡ上中下全'
+
     regex_list =[
-        r'([\s\d]+年)*\s*[\d]+月号\s*',
-        r'\s*[VＶ][OＯ][LＬ．][\.．]\s*[\d]+\s*',
-        r'\s*[ＮN][OＯ][\.．]\s*[\d]+\s*',
-        r'[：\s]*[\d一二三四五六七八九十IⅤＩX上中下]+\s+',
-        r'\s*\([上中下全\d一二三四五六七八九十IⅤＩX]+\)\s*',
-        r'\s*（[上中下\d一二三四五六七八九十IⅤＩX]+）\s*',
-        r'\s*＜[上中下\d一二三四五六七八九十IⅤＩX]+＞\s*',
-        r'\s*―*[第全]*[\d一二三四五六七八九十IⅤＩⅠX]+巻―*\s*',
-        r'\s*[\d一二三四五六七八九IⅤＩⅠⅡX]+\s*$',
+        (r'([\s\d]+年)*\s*[\d]+月号\s*',''),
+        (r'\s*[VＶ][OＯ][LＬ．][\.．]\s*[\d]+\s*',''),
+        (r'\s*[ＮN][OＯ][\.．]\s*[\d]+\s*',''),
+        (r'\s*―*[第全]*[' + keyword + ']+巻―*\s*',''),
+        (r'\s*\([' + keyword + r']\)\s*',''),
+        (r'\s*（[' + keyword + r']+）\s*',''),
+        (r'\s*＜[' + keyword + r']+＞\s*',''),
+        (r'[：\s]+[' + keyword + r']+\s+',''),
+        (r'([^' + keyword + r'+])[' + keyword + r']+\s\(','\\1('),
+        (r'[：\s]*[' + keyword + ']+$',''),
+        (r'\s+\(','('),
     ]
 
     for r in regex_list:
-        result = re.sub(r, '', title, flags=re.IGNORECASE)
+        result = re.sub(r[0], r[1], title, flags=re.IGNORECASE)
         if title != result:
             return result
 
-    title = re.sub(r'\s+(\()','(',title)
     return title

@@ -25,19 +25,19 @@ def load_text_list(path):
 
 settings_dict = load_json_setting('../config/settings.json')
 secrets_dict = load_json_setting('../config/secrets.json')
+model_dict = load_json_setting('../config/model.json')
+
+amazon_access_key = secrets_dict['amazon_access_key']
+amazon_secret_key = secrets_dict['amazon_secret_key']
+amazon_assosiate_id = secrets_dict['amazon_assosiate_id']
 
 kindle_lib = settings_dict['kindle_lib']
 kindle_xml = settings_dict['kindle_xml']
 
 outfile = settings_dict['outfile']
 max_item_num = settings_dict['max_item_num']
-
-author_black_list = settings_dict['author_black_list']
-genle_black_list = settings_dict['genle_black_list']
-title_black_list = settings_dict['title_black_list']
 min_price = settings_dict['min_price']
 
-amazon_access_key = secrets_dict['amazon_access_key']
-amazon_secret_key = secrets_dict['amazon_secret_key']
-amazon_assosiate_id = secrets_dict['amazon_assosiate_id']
-
+author_black_list = model_dict['author_black_list']
+genle_black_list = model_dict['genle_black_list']
+title_black_list = model_dict['title_black_list']

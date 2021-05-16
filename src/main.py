@@ -13,9 +13,7 @@ class Main:
     def __init__(self):
         logzero.logfile(
             settings.settings_dict['logfile'],
-            loglevel=20,
-            maxBytes=1e6,
-            backupCount=3
+            loglevel=20, maxBytes=1e6, backupCount=3
         )
         self.logger = logzero.logger
 

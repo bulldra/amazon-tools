@@ -50,7 +50,6 @@ def tlanslate_series_title(title):
     ]
 
     keyword = r'\d一二三四五六七八九十IⅤＩXⅠⅡ上中下全'
-
     regex_list =[(r'\s*[\[［〔【\(（]' + x + r'[】〕\]\)）］]\s*',) for x in bracket_word_list]
     regex_list += [(r'\s*' + x + r'\s*',) for x in space_word_list]
     regex_list +=[
@@ -62,10 +61,10 @@ def tlanslate_series_title(title):
         (r'\s*（[' + keyword + r']+）\s*',),
         (r'\s*＜[' + keyword + r']+＞\s*',),
         (r'[：:\s]+[' + keyword + r']+\s+',),
-        (r'([^' + keyword + r'+])[' + keyword + r']+\s\(','\\1('),
-        (r'([^' + keyword + r'+])[：:\s]*[' + keyword + r']+$','\\1'),
-        (r'[：:\s]*[' + keyword + r']+\(','('),
-        (r'\s+\(','('),
+        (r'([^' + keyword + r']+)[' + keyword + r']+\s\(',r'\1('),
+        (r'([^' + keyword + r'：:\s]+)[：:\s]*[' + keyword + r']+$',r'\1'),
+        (r'([^' + keyword + r'：:\s]+)[：:\s]*[' + keyword + r']+\(',r'\1('),
+        (r'\s+\(',r'('),
     ]
 
     for r in regex_list:

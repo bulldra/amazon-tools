@@ -2,7 +2,7 @@
     "logfile": "../log/info.log",
     "outfile": "../work/result.csv",
     "kindle_xml": "../work/KindleSyncMetadataCache.xml",
-    "kindle_lib": "../work/kindle_lib.txt",
+    "kindle_lib": "../work/kindle_lib.tsv",
     "max_item_num": 10000,
     "min_price": 100
 }

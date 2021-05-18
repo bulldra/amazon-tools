@@ -19,18 +19,13 @@ def scoring(kindle):
     cause_dict['author'] = _scoring_element_match(settings.author_black_list, kindle.authors)
     cause_dict['title'] = _scoring_part_match(settings.title_black_list, [kindle.title])
     cause_dict['series'] = -1 if _scoring_part_match(settings.title_black_list, [kindle.title]) else 0
-
     return cause_dict
 
 def agg_score(cause_dict):
     score = 0.0
     for v in cause_dict.values():
-        if type(v) is dict:
-            score += agg_score(v)
-        else:
-            score += v
+        score += agg_score(v) if type(v) is dict else v
     return score
-
 
 def _scoring_element_match(model, elem):
     score = {}

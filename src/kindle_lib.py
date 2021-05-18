@@ -21,8 +21,10 @@ class KindleLibExporter:
     def import_kindle_xml(self, kindle_xml):
         matrix =[]
         record = {}
-        for event, el in etree.iterparse(kindle_xml):
-            if event == 'end':
+        for event, el in etree.iterparse(kindle_xml, events=['start', 'end']):
+            if event == 'start' and el.tag == 'meta_data':
+                record = {}
+            elif event == 'end':
                 if el.tag == 'title':
                     record[el.tag] = el.text
                     record['series_title'] = kindle_util.tlanslate_series_title(el.text)
@@ -30,15 +32,13 @@ class KindleLibExporter:
                     record['asin'] = el.text
                     record['url'] = f'https://www.amazon.co.jp/dp/{el.text}'
                 elif el.tag in ['author', 'publisher']:
-                    if el.tag in record:
-                        record[el.tag] = f'{record[el.tag]},{el.text}'
-                    else:
-                        record[el.tag] = el.text
+                    e = kindle_util.norm_autohr(el.text)
+                    record[el.tag] = f'{record[el.tag]},{e}' if el.tag in record else e
                 elif el.tag in ['publication_date']:
                     record[el.tag] = el.text
                 elif el.tag == 'meta_data':
+                    record.setdefault('author','著者情報なし')
                     matrix.append(record)
-                    record = {}
         return matrix
 
     def main(self, args):
@@ -47,7 +47,8 @@ class KindleLibExporter:
         ## 指定されたファイルパスのXMLを解析
         self.logger.info(f'import {args.arg1}')
         df = pandas.DataFrame(self.import_kindle_xml(args.arg1))
-        df.sort_values(['series_title','title'], inplace=True)
+        df.sort_values(['author','series_title','title'], inplace=True)
+        df = df.reindex(columns=['asin','author','series_title','title','publisher','publication_date','url'])
 
         ## ファイルパスが指定されていればファイルに出力、そうでないなら sys.out に出力
         out = sys.stdout if args.out is None else args.out

@@ -5,7 +5,7 @@ __version__ = "0.1.0"
 import re
 
 def norm_autohr(atutor):
-    return re.sub(r'\s+','',atutor)
+    return re.sub(r'\s+','', atutor)
 
 def tlanslate_series_title(title):
     bracket_word_list =[
@@ -57,14 +57,14 @@ def tlanslate_series_title(title):
         (r'([\s\d]+年)*\s*[\d]+月号\s*',),
         (r'\s*[VＶ][OＯ][LＬ．][\.．]\s*[\d]+\s*',),
         (r'\s*[ＮN][OＯ][\.．]\s*[\d]+\s*',),
-        (r'\s*―*[第全]*[' + keyword + ']+巻―*\s*',),
+        (r'\s*―*[第全]*[' + keyword + r']+巻[―\s]*',),
         (r'\s*\([' + keyword + r']\)\s*',),
         (r'\s*（[' + keyword + r']+）\s*',),
         (r'\s*＜[' + keyword + r']+＞\s*',),
         (r'[：:\s]+[' + keyword + r']+\s+',),
-        (r'([^' + keyword + r']+)[' + keyword + r']+\s\(',r'\1('),
-        (r'([^' + keyword + r'：:\s]+)[：:\s]*[' + keyword + r']+$',r'\1'),
-        (r'([^' + keyword + r'：:\s]+)[：:\s]*[' + keyword + r']+\(',r'\1('),
+        (r'([^' + keyword + r']+)[' + keyword + r']+\s\(', r'\1('),
+        (r'([^' + keyword + r'：:\s]+)[：:\s]*[' + keyword + r']+$', r'\1'),
+        (r'([^' + keyword + r'：:\s]+)[：:\s]*[' + keyword + r']+\(', r'\1('),
         (r'\s+\(',r'('),
     ]
 

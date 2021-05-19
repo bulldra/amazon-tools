@@ -58,7 +58,7 @@ def tlanslate_series_title(title):
         (r'\s*[VＶ][OＯ][LＬ．][\.．]\s*[\d]+\s*',),
         (r'\s*[ＮN][OＯ][\.．]\s*[\d]+\s*',),
         (r'\s*―*[第全]*[' + keyword + r']+巻[―\s]*',),
-        (r'\s*\([' + keyword + r']\)\s*',),
+        (r'\s*\([' + keyword + r']+\)\s*',),
         (r'\s*（[' + keyword + r']+）\s*',),
         (r'\s*＜[' + keyword + r']+＞\s*',),
         (r'[：:\s]+[' + keyword + r']+\s+',),

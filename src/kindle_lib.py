@@ -37,8 +37,9 @@ class KindleLibExporter:
                 elif el.tag in ['publication_date']:
                     record[el.tag] = el.text
                 elif el.tag == 'meta_data':
-                    record.setdefault('author','著者情報なし')
-                    matrix.append(record)
+                    if record['title'] != '---------------':
+                        record.setdefault('author','著者情報なし')
+                        matrix.append(record)
         return matrix
 
     def main(self, args):
@@ -46,11 +47,13 @@ class KindleLibExporter:
 
         ## 指定されたファイルパスのXMLを解析
         self.logger.info(f'import {args.arg1}')
+
+        ## 結果を整形
         df = pandas.DataFrame(self.import_kindle_xml(args.arg1))
         df.sort_values(['author','series_title','title'], inplace=True)
         df = df.reindex(columns=['asin','author','series_title','title','publisher','publication_date','url'])
 
-        ## ファイルパスが指定されていればファイルに出力、そうでないなら sys.out に出力
+        ## ファイルパスが指定されていればファイルに出力、そうでないなら sys.stdout に出力
         out = sys.stdout if args.out is None else args.out
         self.logger.info(f'export {out}')
         df.to_csv(out, index=False, encoding='UTF-8', sep='\t')

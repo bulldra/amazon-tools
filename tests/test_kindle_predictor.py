@@ -3,10 +3,8 @@ import kindle_predictor
 import logzero
 
 logzero.logfile(
-    '../log/test.log',
-    loglevel=20,
-    maxBytes=1e6,
-    backupCount=3
+    '../log/test.log', loglevel=20,
+    maxBytes=1e6, backupCount=3
 )
 log = logzero.logger
 

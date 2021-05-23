@@ -47,9 +47,9 @@ def _scoring_part_match(model, elem):
 def is_one_in_series(kindle):
     if kindle.asin in lib['asin']:
         return False
-    series_title = kindle_util.tlanslate_series_title(kindle.title)
+    series_title = kindle_util.norm_series_title(kindle.title)
 
-    series_titles = lib['title'].map(kindle_util.tlanslate_series_title)
+    series_titles = lib['title'].map(kindle_util.norm_series_title)
     series_titles.drop_duplicates(inplace=True)
 
     ## 含まれていたら終わり

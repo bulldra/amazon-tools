@@ -57,14 +57,4 @@ def test_sereis_title():
     )
 
     for a in except_list:
-        assert a[1] == kindle_util.tlanslate_series_title(a[0])
-
-def test_ser():
-    lib = pandas.read_csv(settings.kindle_lib, sep='\t')
-    titles = lib['title']
-
-    with open('../work/kindle_lib_title.txt', 'w') as out:
-        out.write('title,result,is_match\n')
-        for x in titles:
-            a = kindle_util.tlanslate_series_title(x)
-            out.write(f'{x}\t{a}\n')
+        assert a[1] == kindle_util.norm_series_title(a[0])

@@ -24,7 +24,12 @@ def test_a():
 
 def test_b():
     kindle= kindle_product.KindleProduct()
-    kindle.title = '100円のコーラを1000円で売る方法3'
-    kindle.asin = 'B009GXMCIUX'
+    kindle.title = 'なっとく！ディープラーニング'
+    kindle.asin = 'B0841WXF8T'
+    assert kindle_predictor._is_one_in_series(kindle) == False
 
-    log.info(kindle_predictor.is_one_in_series(kindle))
+def test_c():
+    kindle= kindle_product.KindleProduct()
+    kindle.title = 'なっとく！ディープラーニング'
+    kindle.asin = 'B0841WXF8TT'
+    assert kindle_predictor._is_one_in_series(kindle) == True

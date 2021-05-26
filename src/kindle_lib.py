@@ -27,7 +27,7 @@ class KindleLibExporter:
             elif event == 'end':
                 if el.tag == 'title':
                     record[el.tag] = el.text
-                    record['series_title'] = kindle_util.tlanslate_series_title(el.text)
+                    record['series_title'] = kindle_util.norm_series_title(el.text)
                 elif el.tag == 'ASIN':
                     record['asin'] = el.text
                     record['url'] = f'https://www.amazon.co.jp/dp/{el.text}'

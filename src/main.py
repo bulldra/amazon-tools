@@ -76,11 +76,10 @@ min_price={request_min_price}, item_page={page}"
 
     def out_product_set(self, product_set, outfile):
         with open(outfile, "w", encoding="utf-8") as out:
-            out.write("author,series_title,title,price,url,genles\n")
+            out.write("author,title,price,url,genles\n")
             for x in sorted(product_set):
                 out.write(
-                    f'"{x.author}","{x.series_title}","{x.title}",\
-"{x.price_display}","{x.url}","{x.genles}"\n'
+                    f'"{x.author}","{x.title}","{x.price_display}","{x.url}","{x.genles}"\n'
                 )
 
     def main(self, args):

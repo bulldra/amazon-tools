@@ -2,6 +2,5 @@
 .vscode
 __pycache__
 config/secrets.json
-config/model.json
 work/
 log/

@@ -64,8 +64,12 @@ min_price={request_min_price}, item_page={page}"
                     kindle_products = [KindleProduct(p) for p in products]
                     for p in kindle_products:
                         now_price = max(now_price, p.price_value)
-                        if kindle_predictor.scoring_value(p) < 0.2:
+                        v = kindle_predictor.scoring_value(p)
+                        if v < 0.3:
                             product_set.add(p)
+                        else:
+                            s = kindle_predictor.scoring(p)
+                            self.logger.info(f"remove {p.title} {v} {s}")
                     # 次のアイテムが取得できない見込みなら終了
                     if len(products) < 10:
                         break

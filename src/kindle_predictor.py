@@ -16,15 +16,19 @@ def scoring_value(kindle):
 
 def scoring(kindle):
     cause_dict = {}
-    cause_dict["having"] = 1 if (lib["asin"] == kindle.asin).sum() > 0 else 0
-    cause_dict["adult"] = 0.2 if kindle.is_adult else 0
+    if (lib["asin"] == kindle.asin).sum() > 0:
+        cause_dict["having"] = settings.model_having
+    else:
+        cause_dict["having"] = 0
+    cause_dict["adult"] = settings.model_adult if kindle.is_adult else 0
     cause_dict["genle"] = _scoring_element_match(
         settings.genle_black_list, kindle.genles
     )
     cause_dict["author"] = _scoring_element_match(
         settings.author_black_list, kindle.authors
     )
-    cause_dict["title"] = _scoring_part_match(settings.title_black_list, [kindle.title])
+    cause_dict["title"] = _scoring_part_match(
+        settings.title_black_list, [kindle.title])
     cause_dict["series"] = -1 if _is_one_in_series(kindle) else 0
     return cause_dict
 

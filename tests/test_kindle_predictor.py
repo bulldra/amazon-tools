@@ -18,15 +18,15 @@ def test_scoring_black1():
     cause_dict = kindle_predictor.scoring(kindle)
     assert cause_dict == {
         "adult": 0,
-        "author": {"与沢翼": 0.2},
-        "genle": {"ティーンズラブ": 0.4, "ライトノベル": 0.2},
+        "author": {"与沢翼": 2},
+        "genle": {"ティーンズラブ": 4},
         "having": 0,
         "series": 0,
         "title": {},
     }
 
     score = kindle_predictor.scoring_value(kindle)
-    assert score == 0.8
+    assert score == 6
 
 
 def test_scoring_black2():
@@ -44,14 +44,14 @@ def test_scoring_black2():
     assert cause_dict == {
         "adult": 0,
         "author": {},
-        "genle": {"コミック・ラノベ・BL": 0.4},
-        "having": 1,
+        "genle": {},
+        "having": 10,
         "series": 0,
         "title": {},
     }
 
     score = kindle_predictor.scoring_value(kindle)
-    assert score == 1.4
+    assert score == 10
 
 
 def test_scoring_having():
@@ -62,7 +62,7 @@ def test_scoring_having():
     kindle.is_adult = False
     kindle.authors = ["川上量生"]
     score = kindle_predictor.scoring_value(kindle)
-    assert score == 1.0
+    assert score == 10
 
 
 def test_scoring_genls():
@@ -78,7 +78,7 @@ def test_scoring_genls():
     score = kindle_predictor._scoring_element_match(
         settings.genle_black_list, kindle.genles
     )
-    assert score == {"コミック・ラノベ・BL": 0.4}
+    assert score == {}
 
 
 def test_b():
@@ -100,4 +100,4 @@ def test_d():
     kindle.title = "なっとく！ディープラーニング"
     kindle.asin = "B00XWZR08A"
     dict = kindle_predictor.scoring(kindle)
-    assert dict["having"] == 1
+    assert dict["having"] == 10

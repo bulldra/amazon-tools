@@ -79,25 +79,3 @@ def test_scoring_genls():
         settings.genle_black_list, kindle.genles
     )
     assert score == {}
-
-
-def test_b():
-    kindle = kindle_product.KindleProduct()
-    kindle.title = "なっとく！ディープラーニング"
-    kindle.asin = "B0841WXF8T"
-    assert ~kindle_predictor._is_one_in_series(kindle)
-
-
-def test_c():
-    kindle = kindle_product.KindleProduct()
-    kindle.title = "なっとく！ディープラーニング"
-    kindle.asin = "B0841WXF8TT"
-    assert kindle_predictor._is_one_in_series(kindle)
-
-
-def test_d():
-    kindle = kindle_product.KindleProduct()
-    kindle.title = "なっとく！ディープラーニング"
-    kindle.asin = "B00XWZR08A"
-    dict = kindle_predictor.scoring(kindle)
-    assert dict["having"] == 10

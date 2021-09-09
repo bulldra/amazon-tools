@@ -1,0 +1,36 @@
+name: pyetst
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/*'
+      - 'tests/*'
+      - 'config/*'
+      - '.github/workflows/*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    container: ghcr.io/${{ github.repository }}:latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cp -r . /data
+      - id: data-download
+        uses: actions/cache@v2
+        with:
+          path: |
+            /data/work/popular-names.txt
+            /data/work/jawiki-country.json.gz
+          key: /data/work/@v2
+      - if: steps.data-download.outputs.cache-hit != 'true'
+        run: |
+          curl https://nlp100.github.io/data/popular-names.txt > /data/work/popular-names.txt
+          curl https://nlp100.github.io/data/jawiki-country.json.gz > /data/work/jawiki-country.json.gz
+      - run: pytest -s
+        working-directory: /data

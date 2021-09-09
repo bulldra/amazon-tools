@@ -1,0 +1,46 @@
+name: docker-push
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - '.github/workflows/*'
+jobs:
+  docker-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-buildx-action@v1
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+  docker-scan:
+    needs: docker-push
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - run: |
+          sudo apt install apt-transport-https gnupg
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -cs) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt update
+          sudo apt install --no-install-recommends trivy
+          sudo snap install hub --classic
+          VERSION=$(curl --silent "https://api.github.com/repos/jgm/pandoc/releases/latest" | \
+                    grep '"tag_name":' | \
+                    sed -E 's/.*"([^"]+)".*/\1/')
+          curl -L -o pandoc.deb https://github.com/jgm/pandoc/releases/download/${VERSION}/pandoc-${VERSION}-1-amd64.deb
+          sudo dpkg -i pandoc.deb
+      - run: docker pull ghcr.io/${{ github.repository }}:latest
+      - run: trivy -q --severity CRITICAL --exit-code 0 ghcr.io/${{ github.repository }}:latest

@@ -21,12 +21,15 @@ def _build_path(path):
 
 
 settings_dict = load_json("../config/settings.json")
-secrets_dict = load_json("../config/secrets.json")
 model_dict = load_json("../config/model.json")
 
-amazon_access_key = secrets_dict["amazon_access_key"]
-amazon_secret_key = secrets_dict["amazon_secret_key"]
-amazon_assosiate_id = secrets_dict["amazon_assosiate_id"]
+try:
+    secrets_dict = load_json("../config/secrets.json")
+    amazon_access_key = secrets_dict["amazon_access_key"]
+    amazon_secret_key = secrets_dict["amazon_secret_key"]
+    amazon_assosiate_id = secrets_dict["amazon_assosiate_id"]
+except FileNotFoundError:
+    print("secrets.json is not found.")
 
 kindle_lib = settings_dict["kindle_lib"]
 kindle_xml = settings_dict["kindle_xml"]

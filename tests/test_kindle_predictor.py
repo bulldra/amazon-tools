@@ -9,13 +9,15 @@ import settings
 
 def test_scoring_black1():
     kindle = kindle_product.KindleProduct()
+    predictor = kindle_predictor.KindlePredicotr()
+
     kindle.title = "aaa"
     kindle.asin = "B00XWZR08B"
     kindle.genles = [["ティーンズラブ", "ライトノベル"]]
     kindle.is_adult = False
     kindle.authors = ["与沢翼"]
 
-    cause_dict = kindle_predictor.scoring(kindle)
+    cause_dict = predictor.scoring(kindle)
     assert cause_dict == {
         "adult": 0,
         "author": {"与沢翼": 2},
@@ -25,14 +27,16 @@ def test_scoring_black1():
         "title": {},
     }
 
-    score = kindle_predictor.scoring_value(kindle)
+    score = predictor.scoring_value(kindle)
     assert score == 6
 
 
 def test_scoring_black2():
     kindle = kindle_product.KindleProduct()
+    predictor = kindle_predictor.KindlePredicotr()
+
     kindle.title = "aaa"
-    kindle.asin = "B0841WXF8T"
+    kindle.asin = "ZZZZZ"
     kindle.genles = [
         ["本", "ジャンル別", "コミック・ラノベ・BL", "コミック"],
         ["Kindleストア", "カテゴリー別", "Kindle本", "マンガ"],
@@ -40,33 +44,24 @@ def test_scoring_black2():
     kindle.is_adult = False
     kindle.authors = ["川上量生"]
 
-    cause_dict = kindle_predictor.scoring(kindle)
+    cause_dict = predictor.scoring(kindle)
     assert cause_dict == {
         "adult": 0,
         "author": {},
         "genle": {},
-        "having": 10,
+        "having": 0,
         "series": 0,
         "title": {},
     }
 
-    score = kindle_predictor.scoring_value(kindle)
-    assert score == 10
-
-
-def test_scoring_having():
-    kindle = kindle_product.KindleProduct()
-    kindle.title = "aaa"
-    kindle.asin = "B00XWZR08A"
-    kindle.genles = [""]
-    kindle.is_adult = False
-    kindle.authors = ["川上量生"]
-    score = kindle_predictor.scoring_value(kindle)
-    assert score == 10
+    score = predictor.scoring_value(kindle)
+    assert score == 0
 
 
 def test_scoring_genls():
     kindle = kindle_product.KindleProduct()
+    predictor = kindle_predictor.KindlePredicotr()
+
     kindle.title = "aaa"
     kindle.asin = "B00XWZR08A"
     kindle.genles = [
@@ -75,7 +70,7 @@ def test_scoring_genls():
     ]
     kindle.is_adult = False
     kindle.authors = ["川上量生"]
-    score = kindle_predictor._scoring_element_match(
+    score = predictor._scoring_element_match(
         settings.genle_black_list, kindle.genles
     )
     assert score == {}

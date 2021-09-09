@@ -19,6 +19,7 @@ class Main:
             settings.settings_dict["logfile"], loglevel=20, maxBytes=1e6, backupCount=3
         )
         self.logger = logzero.logger
+        self.predictor = kindle_predictor.KindlePredicotr()
 
     def crawl_product_set(self, node, max_item_num, min_price):
         amazon_api = AmazonAPI(
@@ -64,11 +65,11 @@ min_price={request_min_price}, item_page={page}"
                     kindle_products = [KindleProduct(p) for p in products]
                     for p in kindle_products:
                         now_price = max(now_price, p.price_value)
-                        v = kindle_predictor.scoring_value(p)
+                        v = self.predictor.scoring_value(p)
                         if v < 0.3:
                             product_set.add(p)
                         else:
-                            s = kindle_predictor.scoring(p)
+                            s = self.predictor.scoring(p)
                             self.logger.info(f"remove {p.title} {v} {s}")
                     # 次のアイテムが取得できない見込みなら終了
                     if len(products) < 10:
@@ -96,7 +97,8 @@ min_price={request_min_price}, item_page={page}"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--version", action="version", version=f"{__version__}")
+    parser.add_argument("--version", action="version",
+                        version=f"{__version__}")
     parser.add_argument("arg1", help="Amazon Node")
     parser.add_argument(
         "--min_price", help="Min Price", default=str(settings.min_price)

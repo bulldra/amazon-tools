@@ -71,3 +71,7 @@ class KindleProduct:
 
     def __str__(self):
         return f"{self.asin},{self.author},{self.title}"
+
+
+def from_response(product):
+    return KindleProduct(product)

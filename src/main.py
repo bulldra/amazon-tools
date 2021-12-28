@@ -4,13 +4,15 @@ __version__ = "0.1.0"
 
 import argparse
 import math
+import os
+import pickle
 
 import logzero
 from amazon.paapi import AmazonAPI
 
 import kindle_predictor
+import kindle_product
 import settings
-from kindle_product import KindleProduct
 
 
 class Main:
@@ -62,15 +64,11 @@ min_price={request_min_price}, item_page={page}"
                     break
                 else:
                     self.logger.info(f"response products={len(products)}")
-                    kindle_products = [KindleProduct(p) for p in products]
+                    kindle_products = [
+                        kindle_product.from_response(p) for p in products]
                     for p in kindle_products:
                         now_price = max(now_price, p.price_value)
-                        v = self.predictor.scoring_value(p)
-                        if v < 0.3:
-                            product_set.add(p)
-                        else:
-                            s = self.predictor.scoring(p)
-                            self.logger.info(f"remove {p.title} {v} {s}")
+                        product_set.add(p)
                     # 次のアイテムが取得できない見込みなら終了
                     if len(products) < 10:
                         break
@@ -81,18 +79,40 @@ min_price={request_min_price}, item_page={page}"
 
     def out_product_set(self, product_set, outfile):
         with open(outfile, "w", encoding="utf-8") as out:
-            out.write("author,title,price,url,genles\n")
+            out.write("asin,author,title,price,url,genles\n")
             for x in sorted(product_set):
                 out.write(
-                    f'"{x.author}","{x.title}","{x.price_display}","{x.url}","{x.genles}"\n'
+                    f'"{x.asin}","{x.author}","{x.title}","{x.price_display}","{x.url}","{x.genles}"\n'
                 )
+
+    def predict(self, product_set):
+        new_product_set = set()
+        for p in product_set:
+            v = self.predictor.scoring_value(p)
+            if v < 0.3:
+                new_product_set.add(p)
+            else:
+                s = self.predictor.scoring(p)
+                self.logger.info(f"remove {p.title} {v} {s}")
+        return new_product_set
 
     def main(self, args):
         self.logger.info(f"{args}")
-        product_set = self.crawl_product_set(
-            args.arg1, settings.max_item_num, int(args.min_price)
-        )
-        self.out_product_set(product_set, settings.outfile)
+
+        product_set = None
+        tmp_outpath = settings.tmp_outfile.format(args.arg1)
+        if not os.path.isfile(tmp_outpath):
+            product_set = self.crawl_product_set(
+                args.arg1, settings.max_item_num, int(args.min_price)
+            )
+            with open(tmp_outpath, 'wb') as f:
+                pickle.dump(product_set, f)
+        else:
+            with open(tmp_outpath, 'rb') as f:
+                product_set = pickle.load(f)
+
+        product_set = self.predict(product_set)
+        self.out_product_set(product_set, settings.outfile.format(args.arg1))
 
 
 if __name__ == "__main__":

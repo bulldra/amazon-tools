@@ -6,7 +6,7 @@ import json
 import os
 
 
-def load_json(path):
+def load_json(path, *ex_path):
     with open(_build_path(path), "r") as conf:
         return json.load(conf)
 
@@ -21,7 +21,8 @@ def _build_path(path):
 
 
 settings_dict = load_json("../config/settings.json")
-model_dict = load_json("../config/model.json")
+model_dict = load_json("../config/black_score.json")
+model_dict = model_dict | load_json("../config/black_score_ex.json")
 
 try:
     secrets_dict = load_json("../config/secrets.json")
@@ -35,6 +36,7 @@ kindle_lib = settings_dict["kindle_lib"]
 kindle_xml = settings_dict["kindle_xml"]
 
 outfile = settings_dict["outfile"]
+tmp_outfile = settings_dict["tmp_outfile"]
 max_item_num = settings_dict["max_item_num"]
 min_price = settings_dict["min_price"]
 

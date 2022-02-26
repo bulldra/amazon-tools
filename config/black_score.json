@@ -1,13 +1,13 @@
 {
-    "having" : 10,
-    "adult" : 10,
-    "author_black_list": {},
-    "genle_black_list": {},
-    "title_black_list": {
-        "分冊版": 4,
-        "連載版": 4,
-        "【短編】": 4,
-        "合本版": 4,
-        "単話": 4
-    }
+  "having": 10,
+  "adult": 10,
+  "author_black_list": {},
+  "genle_black_list": {},
+  "title_black_list": {
+    "分冊版": 4,
+    "連載版": 4,
+    "【短編】": 4,
+    "合本版": 4,
+    "単話": 4
+  }
 }

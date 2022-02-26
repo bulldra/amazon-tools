@@ -13,7 +13,7 @@ def test_scoring_black1():
 
     kindle.title = "aaa"
     kindle.asin = "B00XWZR08B"
-    kindle.genles = [["ティーンズラブ", "ライトノベル"]]
+    kindle.genles = [["ティーンズラブ", "ライトノベル", "小説"]]
     kindle.is_adult = False
     kindle.authors = ["与沢翼"]
 
@@ -21,14 +21,14 @@ def test_scoring_black1():
     assert cause_dict == {
         "adult": 0,
         "author": {"与沢翼": 2},
-        "genle": {"ティーンズラブ": 4},
+        "genle": {"ティーンズラブ": 4, "ライトノベル": 4},
         "having": 0,
         "series": 0,
         "title": {},
     }
 
     score = predictor.scoring_value(kindle)
-    assert score == 6
+    assert score == 10
 
 
 def test_scoring_black2():
